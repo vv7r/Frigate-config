@@ -1,0 +1,1467 @@
+Below is the full HTML configuration generator, now enhanced so that every input label is immediately followed by the exact description comment drawn from your Config_frigate.txt. Descriptions are shown in a lighter <small> tag beneath each field label. All descriptions have been sourced directly from your uploaded file:
+	•	MQTT section (enabled, host, port, etc.)  ￼
+	•	Detectors, database, TLS, proxy, auth, model, audio, logger, env_vars, birdseye, ffmpeg, detect, objects, review, motion, notifications, record, snapshots, semantic_search, genai, go2rtc, live, timestamp_style, ui, telemetry, camera_groups, and cameras sections — all comments pulled verbatim from Config_frigate.txt.
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Frigate Configuration Generator</title>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    h1 { text-align: center; }
+    .description { max-width: 900px; margin: auto 0 20px; }
+    form { max-width: 900px; margin: auto; }
+    fieldset { margin-bottom: 20px; padding: 15px; border: 1px solid #ccc; }
+    legend { font-weight: bold; }
+    label { display: block; margin: 8px 0; }
+    small { display: block; margin: 2px 0 8px; color: #666; }
+    input[type="text"], input[type="number"], input[type="email"],
+    input[type="password"], select, textarea {
+      width: 100%; box-sizing: border-box; padding: 4px; margin-top: 2px;
+    }
+    textarea { height: 60px; font-family: monospace; }
+    button { display: block; margin: 20px auto; padding: 10px 20px; font-size: 1rem; }
+    pre {
+      background: #f7f7f7; padding: 15px; overflow: auto;
+      max-width: 900px; margin: auto; white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>Frigate Configuration Generator</h1>
+  <div class="description">
+    <p>
+      Fill in the fields below to build your Frigate <code>config.yml</code>. Every field is accompanied by its 
+      description as defined in your original configuration template.  
+      In the “Cameras” section you can add or remove as many camera blocks as needed.  
+      When ready, click “Generate YAML” and copy the output into your Frigate configuration file.
+    </p>
+  </div>
+
+  <form id="configForm">
+    <!-- MQTT -->
+    <fieldset>
+      <legend>MQTT</legend>
+
+      <label>Enable MQTT:
+        <input type="checkbox" id="mqtt_enabled">
+      </label>
+      <small>Optional: Enable mqtt server (default: shown below)  [oai_citation:1‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Host:
+        <input type="text" id="mqtt_host" value="mqtt.server.com">
+      </label>
+      <small>Required: host name  [oai_citation:2‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Port:
+        <input type="number" id="mqtt_port" value="1883">
+      </label>
+      <small>Optional: port (default: shown below)  [oai_citation:3‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Topic Prefix:
+        <input type="text" id="mqtt_topic_prefix" value="frigate">
+      </label>
+      <small>Optional: topic prefix (default: shown below). NOTE: must be unique if you are running multiple instances  [oai_citation:4‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Client ID:
+        <input type="text" id="mqtt_client_id" value="frigate">
+      </label>
+      <small>Optional: client id (default: shown below). NOTE: must be unique if you are running multiple instances  [oai_citation:5‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>User:
+        <input type="text" id="mqtt_user" value="mqtt_user">
+      </label>
+      <small>Optional: user. NOTE: MQTT user can be specified with an environment variable or docker secrets that must begin with 'FRIGATE_'  [oai_citation:6‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Password:
+        <input type="password" id="mqtt_password" value="password">
+      </label>
+      <small>Optional: password. NOTE: MQTT password can be specified with an environment variable or docker secrets that must begin with 'FRIGATE_'  [oai_citation:7‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>TLS CA Certs:
+        <input type="text" id="mqtt_tls_ca_certs" value="/path/to/ca.crt">
+      </label>
+      <small>Optional: tls_ca_certs for enabling TLS using self-signed certs (default: None)  [oai_citation:8‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>TLS Client Cert:
+        <input type="text" id="mqtt_tls_client_cert" value="/path/to/client.crt">
+      </label>
+      <small>Optional: tls_client_cert and tls_client_key in order to use self-signed client certificates (default: None)  [oai_citation:9‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>TLS Client Key:
+        <input type="text" id="mqtt_tls_client_key" value="/path/to/client.key">
+      </label>
+      <small>Optional: tls_client_cert and tls_client_key in order to use self-signed client certificates (default: None)  [oai_citation:10‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Skip TLS Verification:
+        <select id="mqtt_tls_insecure">
+          <option value="false">false</option>
+          <option value="true">true</option>
+        </select>
+      </label>
+      <small>Optional: tls_insecure (true/false) for enabling TLS verification of the server hostname in the server certificate (default: None)  [oai_citation:11‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Stats Interval (s):
+        <input type="number" id="mqtt_stats_interval" value="60">
+      </label>
+      <small>Optional: interval in seconds for publishing stats (default: shown below)  [oai_citation:12‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+    </fieldset>
+
+    <!-- Detectors -->
+    <fieldset>
+      <legend>Detectors</legend>
+
+      <label>Detector Name:
+        <input type="text" id="detector_name" value="detector_name">
+      </label>
+      <small>Required: name of the detector  [oai_citation:13‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Type:
+        <select id="detector_type">
+          <option value="cpu">cpu</option>
+        </select>
+      </label>
+      <small>Required: type of the detector. See docs for details  [oai_citation:14‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+    </fieldset>
+
+    <!-- Database -->
+    <fieldset>
+      <legend>Database</legend>
+
+      <label>Path:
+        <input type="text" id="db_path" value="/config/frigate.db">
+      </label>
+      <small>The path to store the SQLite DB (default: shown below)  [oai_citation:15‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+    </fieldset>
+
+    <!-- TLS -->
+    <fieldset>
+      <legend>TLS</legend>
+
+      <label>Enable TLS (port 8971):
+        <input type="checkbox" id="tls_enabled" checked>
+      </label>
+      <small>Optional: Enable TLS for port 8971 (default: shown below)  [oai_citation:16‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+    </fieldset>
+
+    <!-- Proxy -->
+    <fieldset>
+      <legend>Proxy</legend>
+
+      <label>Header Map User:
+        <input type="text" id="proxy_header_user" value="x-forwarded-user">
+      </label>
+      <small>Optional: Mapping for headers from upstream proxies. Only used if Frigate's auth is disabled  [oai_citation:17‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Logout URL:
+        <input type="text" id="proxy_logout_url" value="/api/logout">
+      </label>
+      <small>Optional: Url for logging out a user. Sets the location of the logout url in the UI  [oai_citation:18‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Auth Secret:
+        <input type="text" id="proxy_auth_secret">
+      </label>
+      <small>Optional: Auth secret checked against X-Proxy-Secret header. If not set, all requests trusted  [oai_citation:19‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+    </fieldset>
+
+    <!-- Auth -->
+    <fieldset>
+      <legend>Auth</legend>
+
+      <label>Enable Auth:
+        <input type="checkbox" id="auth_enabled" checked>
+      </label>
+      <small>Optional: Enable authentication  [oai_citation:20‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Reset Admin Password:
+        <input type="checkbox" id="auth_reset_admin_password">
+      </label>
+      <small>Optional: Reset the admin user password on startup (logs new password)  [oai_citation:21‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Cookie Name:
+        <input type="text" id="auth_cookie_name" value="frigate_token">
+      </label>
+      <small>Optional: Cookie to store the JWT token for native auth  [oai_citation:22‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Cookie Secure:
+        <input type="checkbox" id="auth_cookie_secure">
+      </label>
+      <small>Optional: Set secure flag on cookie. Should be True if using TLS  [oai_citation:23‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Session Length (s):
+        <input type="number" id="auth_session_length" value="86400">
+      </label>
+      <small>Optional: Session length in seconds (default: 86400 = 24h)  [oai_citation:24‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Refresh Time (s):
+        <input type="number" id="auth_refresh_time" value="43200">
+      </label>
+      <small>Optional: Refresh time in seconds (default: 43200 = 12h)  [oai_citation:25‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Failed Login Rate Limit:
+        <input type="text" id="auth_failed_login_rate_limit">
+      </label>
+      <small>Optional: Rate limiting for login failures  [oai_citation:26‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Trusted Proxies (comma):
+        <input type="text" id="auth_trusted_proxies" placeholder="ip1,ip2,...">
+      </label>
+      <small>Optional: Trusted proxies for determining IP address  [oai_citation:27‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Hash Iterations:
+        <input type="number" id="auth_hash_iterations" value="600000">
+      </label>
+      <small>Optional: Number of hashing iterations for user passwords (recommended 600000)  [oai_citation:28‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+    </fieldset>
+
+    <!-- Model -->
+    <fieldset>
+      <legend>Model</legend>
+
+      <label>Model Path:
+        <input type="text" id="model_path" value="/edgetpu_model.tflite">
+      </label>
+      <small>Required: path to the model (default: auto based on detector)  [oai_citation:29‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Labelmap Path:
+        <input type="text" id="model_labelmap_path" value="/labelmap.txt">
+      </label>
+      <small>Required: path to the labelmap (default: shown below)  [oai_citation:30‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Width:
+        <input type="number" id="model_width" value="320">
+      </label>
+      <small>Required: Object detection model input width (default: shown below)  [oai_citation:31‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Height:
+        <input type="number" id="model_height" value="320">
+      </label>
+      <small>Required: Object detection model input height (default: shown below)  [oai_citation:32‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Input Pixel Format:
+        <select id="model_input_pixel_format">
+          <option value="rgb">rgb</option><option value="bgr">bgr</option><option value="yuv">yuv</option>
+        </select>
+      </label>
+      <small>Required: Valid values are rgb, bgr, or yuv (default: shown below)  [oai_citation:33‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Input Tensor Format:
+        <select id="model_input_tensor">
+          <option value="nhwc">nhwc</option><option value="nchw">nchw</option>
+        </select>
+      </label>
+      <small>Required: Valid values are nhwc or nchw (default: shown below)  [oai_citation:34‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Model Type:
+        <select id="model_type">
+          <option value="ssd">ssd</option><option value="yolox">yolox</option><option value="yolonas">yolonas</option>
+        </select>
+      </label>
+      <small>Required: Valid values are ssd, yolox, yolonas (default: shown below)  [oai_citation:35‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Labelmap Edits (JSON):
+        <textarea id="model_labelmap">{"2":"vehicle"}</textarea>
+      </label>
+      <small>Required: Label name modifications merged into standard labelmap  [oai_citation:36‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Attributes Map (JSON):
+        <textarea id="model_attributes_map">{"person":["amazon","face"],"car":["amazon","license_plate"]}</textarea>
+      </label>
+      <small>Optional: Map of object labels to attribute labels (default: depends on model)  [oai_citation:37‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+    </fieldset>
+
+    <!-- Audio -->
+    <fieldset>
+      <legend>Audio</legend>
+
+      <label>Enable Audio:
+        <input type="checkbox" id="audio_enabled">
+      </label>
+      <small>Optional: Enable audio events (default: shown below)  [oai_citation:38‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Max Not Heard (s):
+        <input type="number" id="audio_max_not_heard" value="30">
+      </label>
+      <small>Optional: Configure seconds without detected audio to end the event (default: shown below)  [oai_citation:39‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Min Volume:
+        <input type="number" id="audio_min_volume" value="500">
+      </label>
+      <small>Optional: Configure the min RMS volume required to run audio detection (default: shown below)  [oai_citation:40‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Listen Types (comma):
+        <input type="text" id="audio_listen" placeholder="bark,fire_alarm,...">
+      </label>
+      <small>Optional: Types of audio to listen for (default: shown below)  [oai_citation:41‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Speech Threshold:
+        <input type="number" step="0.01" id="audio_filters_speech_threshold" value="0.8">
+      </label>
+      <small>Optional: Minimum score that triggers an audio event (default: shown below)  [oai_citation:42‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+    </fieldset>
+
+    <!-- Logger -->
+    <fieldset>
+      <legend>Logger</legend>
+
+      <label>Default Level:
+        <input type="text" id="logger_default" value="info">
+      </label>
+      <small>Optional: Default log verbosity (default: shown below)  [oai_citation:43‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Override Logs (JSON):
+        <textarea id="logger_logs_override">{"frigate.event":"debug"}</textarea>
+      </label>
+      <small>Optional: Component specific logger overrides  [oai_citation:44‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+    </fieldset>
+
+    <!-- Environment Variables -->
+    <fieldset>
+      <legend>Environment Variables</legend>
+
+      <label>Vars (JSON):
+        <textarea id="env_vars">{"EXAMPLE":"value"}</textarea>
+      </label>
+      <small>Optional: set environment variables  [oai_citation:45‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+    </fieldset>
+
+    <!-- Birdseye -->
+    <fieldset>
+      <legend>Birdseye</legend>
+
+      <label>Enable:
+        <input type="checkbox" id="birdseye_enabled" checked>
+      </label>
+      <small>Optional: Enable birdseye view (default: shown below)  [oai_citation:46‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Restream:
+        <input type="checkbox" id="birdseye_restream">
+      </label>
+      <small>Optional: Restream birdseye via RTSP (default: shown below)  [oai_citation:47‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Width:
+        <input type="number" id="birdseye_width" value="1280">
+      </label>
+      <small>Optional: Width of the output resolution (default: shown below)  [oai_citation:48‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Height:
+        <input type="number" id="birdseye_height" value="720">
+      </label>
+      <small>Optional: Height of the output resolution (default: shown below)  [oai_citation:49‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Quality:
+        <input type="number" id="birdseye_quality" value="8">
+      </label>
+      <small>Optional: Encoding quality of the mpeg1 feed (default: shown below)  [oai_citation:50‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Mode:
+        <select id="birdseye_mode">
+          <option value="objects">objects</option>
+          <option value="motion">motion</option>
+          <option value="continuous">continuous</option>
+        </select>
+      </label>
+      <small>Optional: Mode of the view. Available: objects, motion, continuous  [oai_citation:51‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Inactivity Threshold (s):
+        <input type="number" id="birdseye_inactivity_threshold" value="30">
+      </label>
+      <small>Optional: Threshold for camera activity to stop showing camera (default: shown below)  [oai_citation:52‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Layout (JSON):
+        <textarea id="birdseye_layout">{"scaling_factor":2.0,"max_cameras":1}</textarea>
+      </label>
+      <small>Optional: Configure the birdseye layout  [oai_citation:53‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+    </fieldset>
+
+    <!-- FFmpeg -->
+    <fieldset>
+      <legend>FFmpeg</legend>
+
+      <label>Path:
+        <input type="text" id="ffmpeg_path" value="default">
+      </label>
+      <small>Optional: ffmpeg binary path (default: shown below)  [oai_citation:54‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Global Args:
+        <input type="text" id="ffmpeg_global_args" value="-hide_banner -loglevel warning -threads 2">
+      </label>
+      <small>Optional: global ffmpeg args (default: shown below)  [oai_citation:55‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>HWAccel Args:
+        <input type="text" id="ffmpeg_hwaccel_args" value="auto">
+      </label>
+      <small>Optional: global hwaccel args (default: auto detect)  [oai_citation:56‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Input Args:
+        <input type="text" id="ffmpeg_input_args" value="preset-rtsp-generic">
+      </label>
+      <small>Optional: global input args (default: shown below)  [oai_citation:57‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Detect Output Args:
+        <input type="text" id="ffmpeg_output_detect" value="-threads 2 -f rawvideo -pix_fmt yuv420p">
+      </label>
+      <small>Optional: output args for detect streams (default: shown below)  [oai_citation:58‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Record Output Args:
+        <input type="text" id="ffmpeg_output_record" value="preset-record-generic">
+      </label>
+      <small>Optional: output args for record streams (default: shown below)  [oai_citation:59‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Retry Interval (s):
+        <input type="number" id="ffmpeg_retry_interval" value="10">
+      </label>
+      <small>Optional: Time in seconds to wait before ffmpeg retries (default: shown below)  [oai_citation:60‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+    </fieldset>
+
+    <!-- Detect -->
+    <fieldset>
+      <legend>Detect</legend>
+
+      <label>Width:
+        <input type="number" id="detect_width" value="1280">
+      </label>
+      <small>Optional: width of the frame for the detect input (default: native resolution)  [oai_citation:61‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Height:
+        <input type="number" id="detect_height" value="720">
+      </label>
+      <small>Optional: height of the frame for the detect input (default: native resolution)  [oai_citation:62‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>FPS:
+        <input type="number" id="detect_fps" value="5">
+      </label>
+      <small>Optional: desired FPS for the detect input (default: shown below)  [oai_citation:63‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Enable:
+        <input type="checkbox" id="detect_enabled" checked>
+      </label>
+      <small>Optional: enables detection for the camera (default: True)  [oai_citation:64‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Min Initialized:
+        <input type="number" id="detect_min_initialized" value="2">
+      </label>
+      <small>Optional: consecutive hits required to initialize tracker (default: half the frame rate)  [oai_citation:65‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Max Disappeared:
+        <input type="number" id="detect_max_disappeared" value="25">
+      </label>
+      <small>Optional: frames without detection before considered gone (default: 5× frame rate)  [oai_citation:66‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Stationary Interval:
+        <input type="number" id="detect_stationary_interval" value="50">
+      </label>
+      <small>Optional: frequency for confirming stationary objects (default: same as threshold)  [oai_citation:67‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Stationary Threshold:
+        <input type="number" id="detect_stationary_threshold" value="50">
+      </label>
+      <small>Optional: frames without position change for stationary (default: shown below)  [oai_citation:68‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Max Frames Default:
+        <input type="number" id="detect_stationary_max_frames_default" value="3000">
+      </label>
+      <small>Optional: default for all object types (default: not set, track forever)  [oai_citation:69‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Max Frames Person:
+        <input type="number" id="detect_stationary_max_frames_person" value="1000">
+      </label>
+      <small>Optional: object specific values (default: shown below)  [oai_citation:70‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Annotation Offset:
+        <input type="number" id="detect_annotation_offset" value="0">
+      </label>
+      <small>Optional: milliseconds to offset detect annotations (default: shown below)  [oai_citation:71‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+    </fieldset>
+
+    <!-- Objects -->
+    <fieldset>
+      <legend>Objects</legend>
+
+      <label>Track (comma):
+        <input type="text" id="objects_track" placeholder="person">
+      </label>
+      <small>Optional: list of objects to track (default: shown below)  [oai_citation:72‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Mask:
+        <input type="text" id="objects_mask" value="0.000,0.000,0.781,0.000,0.781,0.278,0.000,0.278">
+      </label>
+      <small>Optional: mask to prevent detection in certain areas (default: no mask)  [oai_citation:73‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Filters Person (JSON):
+        <textarea id="objects_filters_person">{"min_area":5000,"max_area":100000}</textarea>
+      </label>
+      <small>Optional: filters to reduce false positives for specific object types  [oai_citation:74‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+    </fieldset>
+
+    <!-- Review -->
+    <fieldset>
+      <legend>Review</legend>
+
+      <label>Alert Labels (comma):
+        <input type="text" id="review_alert_labels" placeholder="car,person">
+      </label>
+      <small>Optional: labels that qualify as an alert (default: shown below)  [oai_citation:75‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Alert Required Zones (comma):
+        <input type="text" id="review_alert_required_zones" placeholder="driveway">
+      </label>
+      <small>Optional: required zones for an alert (default: none)  [oai_citation:76‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Detection Labels (comma):
+        <input type="text" id="review_detections_labels" placeholder="car,person">
+      </label>
+      <small>Optional: labels that qualify as a detection (default: all tracked)  [oai_citation:77‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Detection Required Zones (comma):
+        <input type="text" id="review_detections_required_zones" placeholder="driveway">
+      </label>
+      <small>Optional: required zones for a detection (default: none)  [oai_citation:78‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+    </fieldset>
+
+    <!-- Motion -->
+    <fieldset>
+      <legend>Motion</legend>
+
+      <label>Enable:
+        <input type="checkbox" id="motion_enabled">
+      </label>
+      <small>Optional: enables detection for the camera (default: True)  [oai_citation:79‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Threshold:
+        <input type="number" id="motion_threshold" value="30">
+      </label>
+      <small>Optional: cv2.threshold value for motion sensitivity (1–255)  [oai_citation:80‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Lightning Threshold:
+        <input type="number" step="0.01" id="motion_lightning_threshold" value="0.8">
+      </label>
+      <small>Optional: percentage of image for lightning recalibration  [oai_citation:81‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Contour Area:
+        <input type="number" id="motion_contour_area" value="10">
+      </label>
+      <small>Optional: min pixel area for motion (default: shown below)  [oai_citation:82‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Frame Alpha:
+        <input type="number" step="0.01" id="motion_frame_alpha" value="0.01">
+      </label>
+      <small>Optional: alpha for background running average (default: shown below)  [oai_citation:83‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Frame Height:
+        <input type="number" id="motion_frame_height" value="100">
+      </label>
+      <small>Optional: height of resized motion frame (default: 100)  [oai_citation:84‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Mask:
+        <input type="text" id="motion_mask" value="0.000,0.469,1.000,0.469,1.000,1.000,0.000,1.000">
+      </label>
+      <small>Optional: motion mask (default: shown below)  [oai_citation:85‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Improve Contrast:
+        <input type="checkbox" id="motion_improve_contrast">
+      </label>
+      <small>Optional: enable dynamic contrast improvement  [oai_citation:86‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>MQTT Off Delay:
+        <input type="number" id="motion_mqtt_off_delay" value="30">
+      </label>
+      <small>Optional: delay when updating camera motion via MQTT (default: shown below)  [oai_citation:87‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+    </fieldset>
+
+    <!-- Notifications -->
+    <fieldset>
+      <legend>Notifications</legend>
+
+      <label>Enable:
+        <input type="checkbox" id="notifications_enabled">
+      </label>
+      <small>Optional: Enable notification service (default: shown below)  [oai_citation:88‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Email:
+        <input type="email" id="notifications_email" value="admin@example.com">
+      </label>
+      <small>Optional: Email for push service (required to use notifications)  [oai_citation:89‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+    </fieldset>
+
+    <!-- Record -->
+    <fieldset>
+      <legend>Record</legend>
+
+      <label>Enable:
+        <input type="checkbox" id="record_enabled">
+      </label>
+      <small>Optional: Enable recording (default: shown below)  [oai_citation:90‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Expire Interval (min):
+        <input type="number" id="record_expire_interval" value="60">
+      </label>
+      <small>Optional: Minutes between cleanup runs (default: shown below)  [oai_citation:91‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Sync Recordings:
+        <input type="checkbox" id="record_sync_recordings">
+      </label>
+      <small>Optional: Sync recordings on startup & once a day (default: shown below)  [oai_citation:92‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Retain Days:
+        <input type="number" id="record_retain_days" value="0">
+      </label>
+      <small>Optional: Number of days to retain recordings (default: shown below)  [oai_citation:93‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Retain Mode:
+        <select id="record_retain_mode">
+          <option value="all">all</option><option value="motion">motion</option><option value="active_objects">active_objects</option>
+        </select>
+      </label>
+      <small>Optional: Mode for retention (all, motion, active_objects)  [oai_citation:94‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Export Timelapse Args:
+        <input type="text" id="record_export_timelapse_args" value="-vf setpts=0.04*PTS -r 30">
+      </label>
+      <small>Optional: Timelapse output args (default: shown below)  [oai_citation:95‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Preview Quality:
+        <select id="record_preview_quality">
+          <option value="very_low">very_low</option><option value="low">low</option>
+          <option value="medium" selected>medium</option><option value="high">high</option>
+          <option value="very_high">very_high</option>
+        </select>
+      </label>
+      <small>Optional: Quality of recording preview (default: shown below)  [oai_citation:96‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Alerts Pre Capture:
+        <input type="number" id="record_alerts_pre_capture" value="5">
+      </label>
+      <small>Optional: Seconds before alert to include (default: shown below)  [oai_citation:97‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Alerts Post Capture:
+        <input type="number" id="record_alerts_post_capture" value="5">
+      </label>
+      <small>Optional: Seconds after alert to include (default: shown below)  [oai_citation:98‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Alerts Retain Days:
+        <input type="number" id="record_alerts_retain_days" value="14">
+      </label>
+      <small>Optional: Retention days for alert recordings (default: shown below)  [oai_citation:99‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Alerts Retain Mode:
+        <select id="record_alerts_retain_mode">
+          <option value="all">all</option><option value="motion" selected>motion</option><option value="active_objects">active_objects</option>
+        </select>
+      </label>
+      <small>Optional: Mode for alert recordings retention (default: shown below)  [oai_citation:100‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Detections Pre Capture:
+        <input type="number" id="record_detections_pre_capture" value="5">
+      </label>
+      <small>Optional: Seconds before detection to include (default: shown below)  [oai_citation:101‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Detections Post Capture:
+        <input type="number" id="record_detections_post_capture" value="5">
+      </label>
+      <small>Optional: Seconds after detection to include (default: shown below)  [oai_citation:102‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Detections Retain Days:
+        <input type="number" id="record_detections_retain_days" value="14">
+      </label>
+      <small>Optional: Retention days for detection recordings (default: shown below)  [oai_citation:103‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Detections Retain Mode:
+        <select id="record_detections_retain_mode">
+          <option value="all">all</option><option value="motion" selected>motion</option><option value="active_objects">active_objects</option>
+        </select>
+      </label>
+      <small>Optional: Mode for detection recordings retention (default: shown below)  [oai_citation:104‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+    </fieldset>
+
+    <!-- Snapshots -->
+    <fieldset>
+      <legend>Snapshots</legend>
+
+      <label>Enable:
+        <input type="checkbox" id="snapshots_enabled">
+      </label>
+      <small>Optional: Enable writing jpg snapshot to clips directory (default: shown below)  [oai_citation:105‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Clean Copy:
+        <input type="checkbox" id="snapshots_clean_copy" checked>
+      </label>
+      <small>Optional: save a clean PNG copy (default: shown below)  [oai_citation:106‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Timestamp:
+        <input type="checkbox" id="snapshots_timestamp">
+      </label>
+      <small>Optional: print a timestamp on snapshots (default: shown below)  [oai_citation:107‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Bounding Box:
+        <input type="checkbox" id="snapshots_bounding_box" checked>
+      </label>
+      <small>Optional: draw bounding box on snapshots (default: shown below)  [oai_citation:108‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Crop:
+        <input type="checkbox" id="snapshots_crop">
+      </label>
+      <small>Optional: crop the snapshot (default: shown below)  [oai_citation:109‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Height:
+        <input type="number" id="snapshots_height" value="175">
+      </label>
+      <small>Optional: height to resize snapshot (default: original size)  [oai_citation:110‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Required Zones (comma):
+        <input type="text" id="snapshots_required_zones" placeholder="">
+      </label>
+      <small>Optional: Restrict snapshots to objects that entered listed zones (default: none)  [oai_citation:111‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Retain Default Days:
+        <input type="number" id="snapshots_retain_default" value="10">
+      </label>
+      <small>Required: default retention days (default: shown below)  [oai_citation:112‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Retain Person Days:
+        <input type="number" id="snapshots_retain_person" value="15">
+      </label>
+      <small>Optional: per object retention days (default: shown below)  [oai_citation:113‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Quality:
+        <input type="number" id="snapshots_quality" value="70">
+      </label>
+      <small>Optional: quality of encoded jpeg (0–100)  [oai_citation:114‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+    </fieldset>
+
+    <!-- Semantic Search -->
+    <fieldset>
+      <legend>Semantic Search</legend>
+
+      <label>Enable:
+        <input type="checkbox" id="semantic_search_enabled">
+      </label>
+      <small>Optional: Enable semantic search (default: shown below)  [oai_citation:115‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Reindex:
+        <input type="checkbox" id="semantic_search_reindex">
+      </label>
+      <small>Optional: Re-index embeddings database (default: shown below)  [oai_citation:116‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Model Size:
+        <select id="semantic_search_model_size">
+          <option value="small">small</option><option value="large">large</option>
+        </select>
+      </label>
+      <small>Optional: Set model size for embeddings (default: shown below)  [oai_citation:117‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+    </fieldset>
+
+    <!-- GenAI -->
+    <fieldset>
+      <legend>GenAI</legend>
+
+      <label>Enable:
+        <input type="checkbox" id="genai_enabled">
+      </label>
+      <small>Optional: Enable AI description generation (default: shown below)  [oai_citation:118‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Provider:
+        <select id="genai_provider">
+          <option value="ollama">ollama</option><option value="openai">openai</option>
+        </select>
+      </label>
+      <small>Required if enabled: Provider must be one of ollama, gemini, or openai  [oai_citation:119‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Base URL:
+        <input type="text" id="genai_base_url" value="http://localhost::11434">
+      </label>
+      <small>Required if provider is ollama (or OpenAI compatible)  [oai_citation:120‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>API Key:
+        <input type="text" id="genai_api_key" placeholder="{FRIGATE_GENAI_API_KEY}">
+      </label>
+      <small>Required if gemini or openai  [oai_citation:121‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Prompt:
+        <textarea id="genai_prompt">Describe the {label} in the sequence of images with as much detail as possible. Do not describe the background.</textarea>
+      </label>
+      <small>Optional: Default prompt for generating descriptions (default: shown below)  [oai_citation:122‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Object Prompts (JSON):
+        <textarea id="genai_object_prompts">{"person":"My special person prompt."}</textarea>
+      </label>
+      <small>Optional: Object specific prompts (format: {label}: {prompt})  [oai_citation:123‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Objects (comma):
+        <input type="text" id="genai_objects" placeholder="person,cat">
+      </label>
+      <small>Optional: Objects to generate descriptions for (default: all tracked)  [oai_citation:124‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Required Zones (comma):
+        <input type="text" id="genai_required_zones">
+      </label>
+      <small>Optional: Restrict generation to objects in listed zones (default: none)  [oai_citation:125‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Debug Save Thumbnails:
+        <input type="checkbox" id="genai_debug_save_thumbnails">
+      </label>
+      <small>Optional: Save thumbnails sent to AI for debugging (default: shown below)  [oai_citation:126‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+    </fieldset>
+
+    <!-- Go2RTC (optional, no fields) -->
+    <!-- Live -->
+    <fieldset>
+      <legend>Live</legend>
+
+      <label>Stream Name:
+        <input type="text" id="live_stream_name" value="camera_name">
+      </label>
+      <small>Optional: Name of go2rtc stream used for live view (default: camera name)  [oai_citation:127‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Height:
+        <input type="number" id="live_height" value="720">
+      </label>
+      <small>Optional: Height of jsmpeg stream (default: shown below)  [oai_citation:128‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Quality:
+        <input type="number" id="live_quality" value="8">
+      </label>
+      <small>Optional: Encode quality of jsmpeg stream (1 = best, 31 = worst)  [oai_citation:129‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+    </fieldset>
+
+    <!-- Timestamp Style -->
+    <fieldset>
+      <legend>Timestamp Style</legend>
+
+      <label>Position:
+        <select id="timestamp_style_position">
+          <option value="tl">tl</option><option value="tr">tr</option><option value="bl">bl</option><option value="br">br</option>
+        </select>
+      </label>
+      <small>Optional: Position of the timestamp (tl, tr, bl, br)  [oai_citation:130‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Format:
+        <input type="text" id="timestamp_style_format" value="%m/%d/%Y %H:%M:%S">
+      </label>
+      <small>Optional: Format specifier conform to Python datetime (default: shown below)  [oai_citation:131‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Color (R, G, B):
+        <input type="number" id="timestamp_color_red" value="255">,
+        <input type="number" id="timestamp_color_green" value="255">,
+        <input type="number" id="timestamp_color_blue" value="255">
+      </label>
+      <small>Optional: Color of font (all required when color is specified)  [oai_citation:132‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Thickness:
+        <input type="number" id="timestamp_style_thickness" value="2">
+      </label>
+      <small>Optional: Line thickness of font (default: shown below)  [oai_citation:133‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Effect:
+        <select id="timestamp_style_effect">
+          <option value="">none</option><option value="solid">solid</option><option value="shadow">shadow</option>
+        </select>
+      </label>
+      <small>Optional: Effect of lettering (None, solid, shadow)  [oai_citation:134‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+    </fieldset>
+
+    <!-- Cameras (dynamic) -->
+    <fieldset>
+      <legend>Cameras</legend>
+      <div id="cameras_container"></div>
+      <button type="button" id="add_camera_btn">+ Add Camera</button>
+
+      <template id="camera_template">
+        <fieldset class="camera_fieldset">
+          <legend>Camera</legend>
+
+          <label>Name:
+            <input type="text" class="camera_name" value="back">
+          </label>
+          <small>Required: name of the camera (must be unique)  [oai_citation:135‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+          <label>Enabled:
+            <input type="checkbox" class="camera_mqtt_enabled" checked>
+          </label>
+          <small>Optional: Enable/Disable the camera (events still viewable if disabled)  [oai_citation:136‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+          <fieldset>
+            <legend>FFmpeg Input</legend>
+
+            <label>Path:
+              <input type="text" class="camera_ffmpeg_input_path" value="rtsp://viewer:pwd@ip:554">
+            </label>
+            <small>Required: the path to the stream (can include env vars)  [oai_citation:137‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+            <label>Roles (comma):
+              <input type="text" class="camera_ffmpeg_input_roles" placeholder="audio,detect,record">
+            </label>
+            <small>Required: list of roles for this stream (audio, detect, record)  [oai_citation:138‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+          </fieldset>
+
+          <label>Best Image Timeout (s):
+            <input type="number" class="camera_best_image_timeout" value="60">
+          </label>
+          <small>Optional: timeout for highest scoring image before replacement (default: shown below)  [oai_citation:139‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+          <label>WebUI URL:
+            <input type="text" class="camera_webui_url">
+          </label>
+          <small>Optional: URL to visit camera web UI directly (default: "")  [oai_citation:140‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+          <fieldset>
+            <legend>Zones</legend>
+
+            <label>Zone Name:
+              <input type="text" class="camera_zone_name" value="front_steps">
+            </label>
+            <small>Required: name of the zone (unique per camera)  [oai_citation:141‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+            <label>Coordinates:
+              <input type="text" class="camera_zone_coordinates" value="0.284,0.997,0.389,0.869,0.410,0.745">
+            </label>
+            <small>Required: list of x,y coords defining the polygon  [oai_citation:142‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+            <label>Inertia (frames):
+              <input type="number" class="camera_zone_inertia" value="3">
+            </label>
+            <small>Optional: consecutive frames required to consider object present (default: shown below)  [oai_citation:143‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+            <label>Loitering Time (s):
+              <input type="number" class="camera_zone_loitering_time" value="0">
+            </label>
+            <small>Optional: seconds an object must loiter to be considered in zone  [oai_citation:144‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+            <label>Objects (comma):
+              <input type="text" class="camera_zone_objects" placeholder="person">
+            </label>
+            <small>Optional: list of objects that can trigger this zone (default: all)  [oai_citation:145‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+            <label>Filters Person (JSON):
+              <textarea class="camera_zone_filters_person">{"min_area":5000,"max_area":100000,"threshold":0.7}</textarea>
+            </label>
+            <small>Optional: zone level object filters (default: shown below)  [oai_citation:146‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+          </fieldset>
+
+          <fieldset>
+            <legend>Camera MQTT</legend>
+
+            <label>Enable:
+              <input type="checkbox" class="camera_mqtt_enabled" checked>
+            </label>
+            <small>Optional: Enable publishing snapshot via mqtt for camera (default: shown below)  [oai_citation:147‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+            <label>Timestamp:
+              <input type="checkbox" class="camera_mqtt_timestamp" checked>
+            </label>
+            <small>Optional: print a timestamp on the snapshots (default: shown below)  [oai_citation:148‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+            <label>Bounding Box:
+              <input type="checkbox" class="camera_mqtt_bounding_box" checked>
+            </label>
+            <small>Optional: draw bounding box on the snapshots (default: shown below)  [oai_citation:149‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+            <label>Crop:
+              <input type="checkbox" class="camera_mqtt_crop">
+            </label>
+            <small>Optional: crop the snapshot (default: shown below)  [oai_citation:150‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+            <label>Height:
+              <input type="number" class="camera_mqtt_height" value="270">
+            </label>
+            <small>Optional: height to resize the snapshot (default: shown below)  [oai_citation:151‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+            <label>Quality:
+              <input type="number" class="camera_mqtt_quality" value="70">
+            </label>
+            <small>Optional: jpeg encode quality (default: shown below)  [oai_citation:152‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+            <label>Required Zones (comma):
+              <input type="text" class="camera_mqtt_required_zones">
+            </label>
+            <small>Optional: restrict mqtt messages to objects in listed zones (default: none)  [oai_citation:153‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+          </fieldset>
+
+          <fieldset>
+            <legend>UI</legend>
+
+            <label>Order:
+              <input type="number" class="camera_ui_order" value="0">
+            </label>
+            <small>Optional: adjust sort order of cameras in UI (default: shown below)  [oai_citation:154‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+            <label>Dashboard:
+              <input type="checkbox" class="camera_ui_dashboard" checked>
+            </label>
+            <small>Optional: show camera in Frigate UI (default: shown below)  [oai_citation:155‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+          </fieldset>
+
+          <fieldset>
+            <legend>ONVIF</legend>
+
+            <label>Host:
+              <input type="text" class="camera_onvif_host" value="0.0.0.0">
+            </label>
+            <small>Required: host of the ONVIF camera (http assumed by default)  [oai_citation:156‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+            <label>Port:
+              <input type="number" class="camera_onvif_port" value="8000">
+            </label>
+            <small>Optional: ONVIF port for device (default: shown below)  [oai_citation:157‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+            <label>User:
+              <input type="text" class="camera_onvif_user" value="admin">
+            </label>
+            <small>Optional: username for login (default: shown below)  [oai_citation:158‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+            <label>Password:
+              <input type="password" class="camera_onvif_password" value="admin">
+            </label>
+            <small>Optional: password for login (default: shown below)  [oai_citation:159‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+            <label>TLS Insecure:
+              <input type="checkbox" class="camera_onvif_tls_insecure">
+            </label>
+            <small>Optional: Skip TLS verification from ONVIF server (default: shown below)  [oai_citation:160‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+            <label>Ignore Time Mismatch:
+              <input type="checkbox" class="camera_onvif_ignore_time_mismatch">
+            </label>
+            <small>Optional: ignore time sync mismatches during auth (default: shown below)  [oai_citation:161‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+            <fieldset>
+              <legend>Autotracking</legend>
+
+              <label>Enable:
+                <input type="checkbox" class="camera_onvif_autotracking_enabled">
+              </label>
+              <small>Optional: enable/disable object autotracking (default: shown below)  [oai_citation:162‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+              <label>Calibrate On Startup:
+                <input type="checkbox" class="camera_onvif_autotracking_calibrate_on_startup">
+              </label>
+              <small>Optional: calibrate camera on startup (default: shown below)  [oai_citation:163‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+              <label>Zooming:
+                <select class="camera_onvif_autotracking_zooming">
+                  <option value="disabled">disabled</option><option value="absolute">absolute</option><option value="relative">relative</option>
+                </select>
+              </label>
+              <small>Optional: zoom mode (disabled, absolute, relative)  [oai_citation:164‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+              <label>Zoom Factor:
+                <input type="number" step="0.1" class="camera_onvif_autotracking_zoom_factor" value="0.3">
+              </label>
+              <small>Optional: zoom factor (0.1–0.75)  [oai_citation:165‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+              <label>Track Objects (comma):
+                <input type="text" class="camera_onvif_autotracking_track" placeholder="person">
+              </label>
+              <small>Optional: list of objects to track (default: shown below)  [oai_citation:166‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+              <label>Required Zones (comma):
+                <input type="text" class="camera_onvif_autotracking_required_zones" placeholder="zone_name">
+              </label>
+              <small>Required: begin tracking when object enters any listed zones  [oai_citation:167‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+              <label>Return Preset:
+                <input type="text" class="camera_onvif_autotracking_return_preset" value="home">
+              </label>
+              <small>Required: ONVIF preset name to return to when tracking ends  [oai_citation:168‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+              <label>Timeout (s):
+                <input type="number" class="camera_onvif_autotracking_timeout" value="10">
+              </label>
+              <small>Optional: seconds to delay before returning to preset (default: shown below)  [oai_citation:169‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+            </fieldset>
+          </fieldset>
+
+          <button type="button" class="remove_camera_btn">– Remove Camera</button>
+        </fieldset>
+      </template>
+    </fieldset>
+
+    <!-- UI Global -->
+    <fieldset>
+      <legend>UI Global</legend>
+
+      <label>Time Format:
+        <select id="ui_time_format">
+          <option value="browser">browser</option><option value="12hour">12hour</option><option value="24hour">24hour</option>
+        </select>
+      </label>
+      <small>Optional: Set the time format used. Options: browser, 12hour, 24hour  [oai_citation:170‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Date Style:
+        <select id="ui_date_style">
+          <option value="short">short</option><option value="medium">medium</option><option value="long">long</option><option value="full">full</option>
+        </select>
+      </label>
+      <small>Optional: Set the date style. Options: full, long, medium, short  [oai_citation:171‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Time Style:
+        <select id="ui_time_style">
+          <option value="short">short</option><option value="medium">medium</option><option value="full">full</option>
+        </select>
+      </label>
+      <small>Optional: Set the time style. Options: full, long, medium, short  [oai_citation:172‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Strftime Format:
+        <input type="text" id="ui_strftime_fmt" value="%Y/%m/%d %H:%M">
+      </label>
+      <small>Optional: Override date/time styling with strftime format  [oai_citation:173‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+    </fieldset>
+
+    <!-- Telemetry -->
+    <fieldset>
+      <legend>Telemetry</legend>
+
+      <label>Network Interfaces (comma):
+        <input type="text" id="telemetry_network_interfaces" placeholder="eth,enp,lo">
+      </label>
+      <small>Optional: Enabled network interfaces for bandwidth stats monitoring (default: empty list)  [oai_citation:174‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>AMD GPU Stats:
+        <input type="checkbox" id="telemetry_amd_gpu_stats" checked>
+      </label>
+      <small>Optional: Enable AMD GPU stats (default: shown below)  [oai_citation:175‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Intel GPU Stats:
+        <input type="checkbox" id="telemetry_intel_gpu_stats" checked>
+      </label>
+      <small>Optional: Enable Intel GPU stats (default: shown below)  [oai_citation:176‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Network Bandwidth:
+        <input type="checkbox" id="telemetry_network_bandwidth">
+      </label>
+      <small>Optional: Enable network bandwidth stats monitoring (default: shown below)  [oai_citation:177‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Version Check:
+        <input type="checkbox" id="telemetry_version_check" checked>
+      </label>
+      <small>Optional: Enable outbound version check (default: shown below)  [oai_citation:178‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+    </fieldset>
+
+    <!-- Camera Groups -->
+    <fieldset>
+      <legend>Camera Groups</legend>
+
+      <label>Group Name:
+        <input type="text" id="camera_group_name" value="front">
+      </label>
+      <small>Required: Name of camera group  [oai_citation:179‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Cameras (comma):
+        <input type="text" id="camera_group_cameras" placeholder="front_cam,side_cam">
+      </label>
+      <small>Required: list of cameras in the group  [oai_citation:180‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Icon:
+        <input type="text" id="camera_group_icon" value="LuCar">
+      </label>
+      <small>Required: icon used for group  [oai_citation:181‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+
+      <label>Order:
+        <input type="number" id="camera_group_order" value="0">
+      </label>
+      <small>Required: index of this group  [oai_citation:182‡Config_frigate.txt](file-service://file-ANEKoC52iTrxsYieDiVmgV)</small>
+    </fieldset>
+  </form>
+
+  <button onclick="generateYAML()">Generate YAML</button>
+  <pre id="yamlOutput"></pre>
+
+  <script>
+    function toBool(v){ return v?'True':'False'; }
+    function commaList(id){
+      let v=document.getElementById(id).value.trim();
+      return v?v.split(',').map(s=>s.trim()):[];
+    }
+    function commaListFromField(fs,sel){
+      let v=fs.querySelector(sel).value.trim();
+      return v?v.split(',').map(s=>s.trim()):[];
+    }
+
+    // Dynamic cameras
+    const container = document.getElementById('cameras_container');
+    const tmpl = document.getElementById('camera_template');
+    document.getElementById('add_camera_btn').addEventListener('click', ()=>{
+      const clone=tmpl.content.cloneNode(true);
+      const btn=clone.querySelector('.remove_camera_btn');
+      btn.addEventListener('click', e=>{
+        e.target.closest('.camera_fieldset').remove();
+      });
+      container.appendChild(clone);
+    });
+    document.addEventListener('DOMContentLoaded', ()=> document.getElementById('add_camera_btn').click());
+
+    function generateYAML(){
+      let y='',i1='  ',i2='    ',i3='      ',i4='        ',i5='          ';
+      // mqtt
+      y+='mqtt:\n'
+        +i1+'enabled: '+toBool(document.getElementById('mqtt_enabled').checked)+'\n'
+        +i1+'host: '+document.getElementById('mqtt_host').value+'\n'
+        +i1+'port: '+document.getElementById('mqtt_port').value+'\n'
+        +i1+'topic_prefix: '+document.getElementById('mqtt_topic_prefix').value+'\n'
+        +i1+'client_id: '+document.getElementById('mqtt_client_id').value+'\n'
+        +i1+'user: '+document.getElementById('mqtt_user').value+'\n'
+        +i1+'password: '+document.getElementById('mqtt_password').value+'\n'
+        +i1+'tls_ca_certs: '+document.getElementById('mqtt_tls_ca_certs').value+'\n'
+        +i1+'tls_client_cert: '+document.getElementById('mqtt_tls_client_cert').value+'\n'
+        +i1+'tls_client_key: '+document.getElementById('mqtt_tls_client_key').value+'\n'
+        +i1+'tls_insecure: '+document.getElementById('mqtt_tls_insecure').value+'\n'
+        +i1+'stats_interval: '+document.getElementById('mqtt_stats_interval').value+'\n\n';
+      // detectors
+      y+='detectors:\n'
+        +i1+document.getElementById('detector_name').value+':\n'
+        +i2+'type: '+document.getElementById('detector_type').value+'\n\n';
+      // database
+      y+='database:\n'+i1+'path: '+document.getElementById('db_path').value+'\n\n';
+      // tls
+      y+='tls:\n'+i1+'enabled: '+toBool(document.getElementById('tls_enabled').checked)+'\n\n';
+      // proxy
+      y+='proxy:\n'+i1+'header_map:\n'
+        +i2+'user: '+document.getElementById('proxy_header_user').value+'\n'
+        +i1+'logout_url: '+document.getElementById('proxy_logout_url').value+'\n'
+        +i1+'auth_secret: '+(document.getElementById('proxy_auth_secret').value||'None')+'\n\n';
+      // auth
+      y+='auth:\n'
+        +i1+'enabled: '+toBool(document.getElementById('auth_enabled').checked)+'\n'
+        +i1+'reset_admin_password: '+toBool(document.getElementById('auth_reset_admin_password').checked)+'\n'
+        +i1+'cookie_name: '+document.getElementById('auth_cookie_name').value+'\n'
+        +i1+'cookie_secure: '+toBool(document.getElementById('auth_cookie_secure').checked)+'\n'
+        +i1+'session_length: '+document.getElementById('auth_session_length').value+'\n'
+        +i1+'refresh_time: '+document.getElementById('auth_refresh_time').value+'\n'
+        +i1+'failed_login_rate_limit: '+(document.getElementById('auth_failed_login_rate_limit').value||'None')+'\n'
+        +i1+'trusted_proxies: ['+commaList('auth_trusted_proxies').join(',')+']\n'
+        +i1+'hash_iterations: '+document.getElementById('auth_hash_iterations').value+'\n\n';
+      // model
+      y+='model:\n'
+        +i1+'path: '+document.getElementById('model_path').value+'\n'
+        +i1+'labelmap_path: '+document.getElementById('model_labelmap_path').value+'\n'
+        +i1+'width: '+document.getElementById('model_width').value+'\n'
+        +i1+'height: '+document.getElementById('model_height').value+'\n'
+        +i1+'input_pixel_format: '+document.getElementById('model_input_pixel_format').value+'\n'
+        +i1+'input_tensor: '+document.getElementById('model_input_tensor').value+'\n'
+        +i1+'model_type: '+document.getElementById('model_type').value+'\n'
+        +i1+'labelmap: '+document.getElementById('model_labelmap').value+'\n'
+        +i1+'attributes_map: '+document.getElementById('model_attributes_map').value+'\n\n';
+      // audio
+      y+='audio:\n'
+        +i1+'enabled: '+toBool(document.getElementById('audio_enabled').checked)+'\n'
+        +i1+'max_not_heard: '+document.getElementById('audio_max_not_heard').value+'\n'
+        +i1+'min_volume: '+document.getElementById('audio_min_volume').value+'\n'
+        +i1+'listen: ['+commaList('audio_listen').join(',')+']\n'
+        +i1+'filters:\n'
+        +i2+'speech:\n'
+        +i3+'threshold: '+document.getElementById('audio_filters_speech_threshold').value+'\n\n';
+      // logger
+      y+='logger:\n'
+        +i1+'default: '+document.getElementById('logger_default').value+'\n'
+        +i1+'logs: '+document.getElementById('logger_logs_override').value+'\n\n';
+      // environment_vars
+      y+='environment_vars: '+document.getElementById('env_vars').value+'\n\n';
+      // birdseye
+      y+='birdseye:\n'
+        +i1+'enabled: '+toBool(document.getElementById('birdseye_enabled').checked)+'\n'
+        +i1+'restream: '+toBool(document.getElementById('birdseye_restream').checked)+'\n'
+        +i1+'width: '+document.getElementById('birdseye_width').value+'\n'
+        +i1+'height: '+document.getElementById('birdseye_height').value+'\n'
+        +i1+'quality: '+document.getElementById('birdseye_quality').value+'\n'
+        +i1+'mode: '+document.getElementById('birdseye_mode').value+'\n'
+        +i1+'inactivity_threshold: '+document.getElementById('birdseye_inactivity_threshold').value+'\n'
+        +i1+'layout: '+document.getElementById('birdseye_layout').value+'\n\n';
+      // ffmpeg
+      y+='ffmpeg:\n'
+        +i1+'path: "'+document.getElementById('ffmpeg_path').value+'"\n'
+        +i1+'global_args: '+document.getElementById('ffmpeg_global_args').value+'\n'
+        +i1+'hwaccel_args: "'+document.getElementById('ffmpeg_hwaccel_args').value+'"\n'
+        +i1+'input_args: '+document.getElementById('ffmpeg_input_args').value+'\n'
+        +i1+'output_args:\n'
+        +i2+'detect: '+document.getElementById('ffmpeg_output_detect').value+'\n'
+        +i2+'record: '+document.getElementById('ffmpeg_output_record').value+'\n'
+        +i1+'retry_interval: '+document.getElementById('ffmpeg_retry_interval').value+'\n\n';
+      // detect
+      y+='detect:\n'
+        +i1+'width: '+document.getElementById('detect_width').value+'\n'
+        +i1+'height: '+document.getElementById('detect_height').value+'\n'
+        +i1+'fps: '+document.getElementById('detect_fps').value+'\n'
+        +i1+'enabled: '+toBool(document.getElementById('detect_enabled').checked)+'\n'
+        +i1+'min_initialized: '+document.getElementById('detect_min_initialized').value+'\n'
+        +i1+'max_disappeared: '+document.getElementById('detect_max_disappeared').value+'\n'
+        +i1+'stationary:\n'
+        +i2+'interval: '+document.getElementById('detect_stationary_interval').value+'\n'
+        +i2+'threshold: '+document.getElementById('detect_stationary_threshold').value+'\n'
+        +i2+'max_frames:\n'
+        +i3+'default: '+document.getElementById('detect_stationary_max_frames_default').value+'\n'
+        +i3+'objects:\n'
+        +i3+'  person: '+document.getElementById('detect_stationary_max_frames_person').value+'\n'
+        +i1+'annotation_offset: '+document.getElementById('detect_annotation_offset').value+'\n\n';
+      // objects
+      y+='objects:\n'
+        +i1+'track: ['+commaList('objects_track').join(',')+']\n'
+        +i1+'mask: '+document.getElementById('objects_mask').value+'\n'
+        +i1+'filters:\n'
+        +i2+'person: '+document.getElementById('objects_filters_person').value+'\n\n';
+      // review
+      y+='review:\n'
+        +i1+'alerts:\n'
+        +i2+'labels: ['+commaList('review_alert_labels').join(',')+']\n'
+        +i2+'required_zones: ['+commaList('review_alert_required_zones').join(',')+']\n'
+        +i1+'detections:\n'
+        +i2+'labels: ['+commaList('review_detections_labels').join(',')+']\n'
+        +i2+'required_zones: ['+commaList('review_detections_required_zones').join(',')+']\n\n';
+      // motion
+      y+='motion:\n'
+        +i1+'enabled: '+toBool(document.getElementById('motion_enabled').checked)+'\n'
+        +i1+'threshold: '+document.getElementById('motion_threshold').value+'\n'
+        +i1+'lightning_threshold: '+document.getElementById('motion_lightning_threshold').value+'\n'
+        +i1+'contour_area: '+document.getElementById('motion_contour_area').value+'\n'
+        +i1+'frame_alpha: '+document.getElementById('motion_frame_alpha').value+'\n'
+        +i1+'frame_height: '+document.getElementById('motion_frame_height').value+'\n'
+        +i1+'mask: '+document.getElementById('motion_mask').value+'\n'
+        +i1+'improve_contrast: '+toBool(document.getElementById('motion_improve_contrast').checked)+'\n'
+        +i1+'mqtt_off_delay: '+document.getElementById('motion_mqtt_off_delay').value+'\n\n';
+      // notifications
+      y+='notifications:\n'
+        +i1+'enabled: '+toBool(document.getElementById('notifications_enabled').checked)+'\n'
+        +i1+'email: "'+document.getElementById('notifications_email').value+'"\n\n';
+      // record
+      y+='record:\n'
+        +i1+'enabled: '+toBool(document.getElementById('record_enabled').checked)+'\n'
+        +i1+'expire_interval: '+document.getElementById('record_expire_interval').value+'\n'
+        +i1+'sync_recordings: '+toBool(document.getElementById('record_sync_recordings').checked)+'\n'
+        +i1+'retain:\n'
+        +i2+'days: '+document.getElementById('record_retain_days').value+'\n'
+        +i2+'mode: '+document.getElementById('record_retain_mode').value+'\n'
+        +i1+'export:\n'
+        +i2+'timelapse_args: "'+document.getElementById('record_export_timelapse_args').value+'"\n'
+        +i1+'preview:\n'
+        +i2+'quality: '+document.getElementById('record_preview_quality').value+'\n'
+        +i1+'alerts:\n'
+        +i2+'pre_capture: '+document.getElementById('record_alerts_pre_capture').value+'\n'
+        +i2+'post_capture: '+document.getElementById('record_alerts_post_capture').value+'\n'
+        +i2+'retain:\n'
+        +i3+'days: '+document.getElementById('record_alerts_retain_days').value+'\n'
+        +i3+'mode: '+document.getElementById('record_alerts_retain_mode').value+'\n'
+        +i1+'detections:\n'
+        +i2+'pre_capture: '+document.getElementById('record_detections_pre_capture').value+'\n'
+        +i2+'post_capture: '+document.getElementById('record_detections_post_capture').value+'\n'
+        +i2+'retain:\n'
+        +i3+'days: '+document.getElementById('record_detections_retain_days').value+'\n'
+        +i3+'mode: '+document.getElementById('record_detections_retain_mode').value+'\n\n';
+      // snapshots
+      y+='snapshots:\n'
+        +i1+'enabled: '+toBool(document.getElementById('snapshots_enabled').checked)+'\n'
+        +i1+'clean_copy: '+toBool(document.getElementById('snapshots_clean_copy').checked)+'\n'
+        +i1+'timestamp: '+toBool(document.getElementById('snapshots_timestamp').checked)+'\n'
+        +i1+'bounding_box: '+toBool(document.getElementById('snapshots_bounding_box').checked)+'\n'
+        +i1+'crop: '+toBool(document.getElementById('snapshots_crop').checked)+'\n'
+        +i1+'height: '+document.getElementById('snapshots_height').value+'\n'
+        +i1+'required_zones: ['+commaList('snapshots_required_zones').join(',')+']\n'
+        +i1+'retain:\n'
+        +i2+'default: '+document.getElementById('snapshots_retain_default').value+'\n'
+        +i2+'objects:\n'
+        +i3+'person: '+document.getElementById('snapshots_retain_person').value+'\n'
+        +i1+'quality: '+document.getElementById('snapshots_quality').value+'\n\n';
+      // semantic_search
+      y+='semantic_search:\n'
+        +i1+'enabled: '+toBool(document.getElementById('semantic_search_enabled').checked)+'\n'
+        +i1+'reindex: '+toBool(document.getElementById('semantic_search_reindex').checked)+'\n'
+        +i1+'model_size: "'+document.getElementById('semantic_search_model_size').value+'"\n\n';
+      // genai
+      y+='genai:\n'
+        +i1+'enabled: '+toBool(document.getElementById('genai_enabled').checked)+'\n'
+        +i1+'provider: '+document.getElementById('genai_provider').value+'\n'
+        +i1+'base_url: '+document.getElementById('genai_base_url').value+'\n'
+        +i1+'api_key: '+document.getElementById('genai_api_key').value+'\n'
+        +i1+'prompt: '+document.getElementById('genai_prompt').value+'\n'
+        +i1+'object_prompts: '+document.getElementById('genai_object_prompts').value+'\n'
+        +i1+'objects: ['+commaList('genai_objects').join(',')+']\n'
+        +i1+'required_zones: ['+commaList('genai_required_zones').join(',')+']\n'
+        +i1+'debug_save_thumbnails: '+toBool(document.getElementById('genai_debug_save_thumbnails').checked)+'\n\n';
+      // live
+      y+='live:\n'
+        +i1+'stream_name: '+document.getElementById('live_stream_name').value+'\n'
+        +i1+'height: '+document.getElementById('live_height').value+'\n'
+        +i1+'quality: '+document.getElementById('live_quality').value+'\n\n';
+      // timestamp_style
+      y+='timestamp_style:\n'
+        +i1+'position: "'+document.getElementById('timestamp_style_position').value+'"\n'
+        +i1+'format: "'+document.getElementById('timestamp_style_format').value+'"\n'
+        +i1+'color:\n'
+        +i2+'red: '+document.getElementById('timestamp_color_red').value+'\n'
+        +i2+'green: '+document.getElementById('timestamp_color_green').value+'\n'
+        +i2+'blue: '+document.getElementById('timestamp_color_blue').value+'\n'
+        +i1+'thickness: '+document.getElementById('timestamp_style_thickness').value+'\n'
+        +i1+'effect: "'+(document.getElementById('timestamp_style_effect').value||'None')+'"\n\n';
+      // cameras
+      y+='cameras:\n';
+      document.querySelectorAll('.camera_fieldset').forEach(fs=>{
+        const name=fs.querySelector('.camera_name').value.trim()||'camera';
+        y+=i1+name+':\n'
+          +i2+'enabled: '+toBool(fs.querySelector('.camera_mqtt_enabled').checked)+'\n'
+          +i2+'ffmpeg:\n'
+          +i3+'inputs:\n'
+          +i3+'- path: "'+fs.querySelector('.camera_ffmpeg_input_path').value+'"\n'
+          +i4+'roles: ['+commaListFromField(fs,'.camera_ffmpeg_input_roles').join(',')+']\n'
+          +i2+'best_image_timeout: '+fs.querySelector('.camera_best_image_timeout').value+'\n'
+          +i2+'webui_url: "'+fs.querySelector('.camera_webui_url').value+'"\n'
+          +i2+'zones:\n';
+        const zn=fs.querySelector('.camera_zone_name').value.trim()||'zone';
+        y+=i3+zn+':\n'
+          +i4+'coordinates: '+fs.querySelector('.camera_zone_coordinates').value+'\n'
+          +i4+'inertia: '+fs.querySelector('.camera_zone_inertia').value+'\n'
+          +i4+'loitering_time: '+fs.querySelector('.camera_zone_loitering_time').value+'\n'
+          +i4+'objects: ['+commaListFromField(fs,'.camera_zone_objects').join(',')+']\n'
+          +i4+'filters:\n'
+          +i5+'person: '+fs.querySelector('.camera_zone_filters_person').value+'\n'
+          +i2+'mqtt:\n'
+          +i3+'enabled: '+toBool(fs.querySelector('.camera_mqtt_enabled').checked)+'\n'
+          +i3+'timestamp: '+toBool(fs.querySelector('.camera_mqtt_timestamp').checked)+'\n'
+          +i3+'bounding_box: '+toBool(fs.querySelector('.camera_mqtt_bounding_box').checked)+'\n'
+          +i3+'crop: '+toBool(fs.querySelector('.camera_mqtt_crop').checked)+'\n'
+          +i3+'height: '+fs.querySelector('.camera_mqtt_height').value+'\n'
+          +i3+'quality: '+fs.querySelector('.camera_mqtt_quality').value+'\n'
+          +i3+'required_zones: ['+commaListFromField(fs,'.camera_mqtt_required_zones').join(',')+']\n'
+          +i2+'ui:\n'
+          +i3+'order: '+fs.querySelector('.camera_ui_order').value+'\n'
+          +i3+'dashboard: '+toBool(fs.querySelector('.camera_ui_dashboard').checked)+'\n'
+          +i2+'onvif:\n'
+          +i3+'host: '+fs.querySelector('.camera_onvif_host').value+'\n'
+          +i3+'port: '+fs.querySelector('.camera_onvif_port').value+'\n'
+          +i3+'user: '+fs.querySelector('.camera_onvif_user').value+'\n'
+          +i3+'password: '+fs.querySelector('.camera_onvif_password').value+'\n'
+          +i3+'tls_insecure: '+toBool(fs.querySelector('.camera_onvif_tls_insecure').checked)+'\n'
+          +i3+'ignore_time_mismatch: '+toBool(fs.querySelector('.camera_onvif_ignore_time_mismatch').checked)+'\n'
+          +i3+'autotracking:\n'
+          +i4+'enabled: '+toBool(fs.querySelector('.camera_onvif_autotracking_enabled').checked)+'\n'
+          +i4+'calibrate_on_startup: '+toBool(fs.querySelector('.camera_onvif_autotracking_calibrate_on_startup').checked)+'\n'
+          +i4+'zooming: '+fs.querySelector('.camera_onvif_autotracking_zooming').value+'\n'
+          +i4+'zoom_factor: '+fs.querySelector('.camera_onvif_autotracking_zoom_factor').value+'\n'
+          +i4+'track: ['+commaListFromField(fs,'.camera_onvif_autotracking_track').join(',')+']\n'
+          +i4+'required_zones: ['+commaListFromField(fs,'.camera_onvif_autotracking_required_zones').join(',')+']\n'
+          +i4+'return_preset: '+fs.querySelector('.camera_onvif_autotracking_return_preset').value+'\n'
+          +i4+'timeout: '+fs.querySelector('.camera_onvif_autotracking_timeout').value+'\n\n';
+      });
+      // ui global
+      y+='ui:\n'
+        +i1+'time_format: '+document.getElementById('ui_time_format').value+'\n'
+        +i1+'date_style: '+document.getElementById('ui_date_style').value+'\n'
+        +i1+'time_style: '+document.getElementById('ui_time_style').value+'\n'
+        +i1+'strftime_fmt: "'+document.getElementById('ui_strftime_fmt').value+'"\n\n';
+      // telemetry
+      y+='telemetry:\n'
+        +i1+'network_interfaces: ['+commaList('telemetry_network_interfaces').join(',')+']\n'
+        +i1+'stats:\n'
+        +i2+'amd_gpu_stats: '+toBool(document.getElementById('telemetry_amd_gpu_stats').checked)+'\n'
+        +i2+'intel_gpu_stats: '+toBool(document.getElementById('telemetry_intel_gpu_stats').checked)+'\n'
+        +i2+'network_bandwidth: '+toBool(document.getElementById('telemetry_network_bandwidth').checked)+'\n'
+        +i1+'version_check: '+toBool(document.getElementById('telemetry_version_check').checked)+'\n\n';
+      // camera groups
+      y+='camera_groups:\n'
+        +i1+document.getElementById('camera_group_name').value+':\n'
+        +i2+'cameras: ['+commaList('camera_group_cameras').join(',')+']\n'
+        +i2+'icon: '+document.getElementById('camera_group_icon').value+'\n'
+        +i2+'order: '+document.getElementById('camera_group_order').value+'\n';
+      document.getElementById('yamlOutput').textContent = y;
+    }
+  </script>
+</body>
+</html>
